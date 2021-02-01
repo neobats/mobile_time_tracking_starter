@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import TimerButton from "./TimerButton";
 import TimerForm from "./TimerForm";
 
@@ -10,7 +10,6 @@ type Props = {
 
 const ToggleableTimerForm: React.FC<Props> = ({ isOpen, setIsOpen }) => (
   <View style={[styles.container, !isOpen && styles.buttonPadding]}>
-    <Text>{`${isOpen}`}</Text>
     {isOpen ? (
       <TimerForm onCancel={setIsOpen} />
     ) : (
