@@ -6,9 +6,17 @@ type Props = {
   id: string;
   title: string;
   project: string;
+  onCancel: () => void;
+  onCreate: () => void;
 };
 
-const TimerForm = ({ id, title, project }: Partial<Props>) => {
+const TimerForm = ({
+  id,
+  title,
+  project,
+  onCancel,
+  onCreate,
+}: Partial<Props>) => {
   const submitText = id ? "Update" : "Create";
   return (
     <View style={styles.formContainer}>
@@ -33,8 +41,13 @@ const TimerForm = ({ id, title, project }: Partial<Props>) => {
         </View>
       </View>
       <View style={styles.buttonGroup}>
-        <TimerButton small color="21BA45" title={submitText} />
-        <TimerButton small color="DB2828" title="Cancel" />
+        <TimerButton
+          small
+          color="21BA45"
+          title={submitText}
+          onPress={onCreate}
+        />
+        <TimerButton small color="DB2828" title="Cancel" onPress={onCancel} />
       </View>
     </View>
   );

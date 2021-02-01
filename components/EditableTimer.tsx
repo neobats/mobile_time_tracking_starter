@@ -3,12 +3,12 @@ import Timer from "./Timer";
 import TimerForm from "./TimerForm";
 
 type Props = {
-  editFormOpen: boolean;
   elapsed: string;
   id: string;
-  isRunning: boolean;
   project: string;
   title: string;
+  editFormOpen?: boolean;
+  isRunning?: boolean;
 };
 
 const EditableTimer = ({
