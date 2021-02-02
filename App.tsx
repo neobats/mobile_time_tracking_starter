@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   KeyboardAvoidingView,
   ScrollView,
@@ -8,10 +8,25 @@ import {
 } from "react-native";
 import EditableTimer from "./components/EditableTimer";
 import ToggleableTimerForm from "./components/ToggleableTimerForm";
+import { useTimers } from "./utils/hooks";
 
 export default function App() {
-  const [isOpen, setIsOpen] = useState(false);
-  const handleOpenPress = () => setIsOpen(!isOpen);
+  const [timers, timerFns] = useTimers([
+    {
+      id: "1",
+      title: "Mow the lawn",
+      project: "House Chores",
+      elapsed: 8986300,
+      isRunning: true,
+    },
+    {
+      id: "2",
+      title: "Bake squash",
+      project: "Kitchen Chores",
+      elapsed: 3890985,
+    },
+  ]);
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -22,23 +37,15 @@ export default function App() {
         // style={styles.titleListContainer}
       >
         <ScrollView style={styles.timerList}>
-          <ToggleableTimerForm isOpen={isOpen} setIsOpen={handleOpenPress} />
-
-          <EditableTimer
-            id="1"
-            title="Mow the lawn"
-            project="House Chores"
-            elapsed="8986300"
-            isRunning
-          />
-
-          <EditableTimer
-            id="2"
-            title="Bake squash"
-            project="Kitchen Chores"
-            elapsed="3890985"
-            editFormOpen
-          />
+          <ToggleableTimerForm />
+          {timers.map((timer) => (
+            <EditableTimer
+              key={timer.id}
+              {...timer}
+              editTimer={timerFns.update}
+              removeTimer={timerFns.remove}
+            />
+          ))}
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
