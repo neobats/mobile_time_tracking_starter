@@ -1,18 +1,18 @@
-import React from "react";
-import { removeFn, updateFn } from "../types";
-import { useEditFormToggle } from "../utils/hooks";
-import Timer from "./Timer";
-import TimerForm from "./TimerForm";
+import React from "react"
+import { removeFn, updateFn } from "../types"
+import { useEditFormToggle } from "../utils/hooks"
+import Timer from "./Timer"
+import TimerForm from "./TimerForm"
 
 type Props = {
-  elapsed: number;
-  id: string;
-  project: string;
-  title: string;
-  isRunning?: boolean;
-  editTimer: updateFn;
-  removeTimer: removeFn;
-};
+  elapsed: number
+  id: string
+  project: string
+  title: string
+  isRunning?: boolean
+  editTimer: updateFn
+  removeTimer: removeFn
+}
 
 const EditableTimer = ({
   elapsed,
@@ -23,12 +23,12 @@ const EditableTimer = ({
   editTimer,
   removeTimer,
 }: Props) => {
-  const [isEditFormOpen, setEditFormOpen] = useEditFormToggle();
+  const [isEditFormOpen, setEditFormOpen] = useEditFormToggle()
 
   const onEdit: updateFn = (id, timer) => {
-    setEditFormOpen();
-    return editTimer(id, timer);
-  };
+    setEditFormOpen()
+    return editTimer(id, timer)
+  }
 
   if (isEditFormOpen) {
     return (
@@ -39,7 +39,7 @@ const EditableTimer = ({
         onCancel={setEditFormOpen}
         onEdit={onEdit}
       />
-    );
+    )
   }
   return (
     <Timer
@@ -51,7 +51,7 @@ const EditableTimer = ({
       setEditFormOpen={setEditFormOpen}
       removeTimer={removeTimer}
     />
-  );
-};
+  )
+}
 
-export default EditableTimer;
+export default EditableTimer

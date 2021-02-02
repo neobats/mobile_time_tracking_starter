@@ -1,14 +1,15 @@
-import React from "react";
+import React from "react"
 import {
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   Text,
   View,
-} from "react-native";
-import EditableTimer from "./components/EditableTimer";
-import ToggleableTimerForm from "./components/ToggleableTimerForm";
-import { useTimers } from "./utils/hooks";
+} from "react-native"
+import EditableTimer from "./components/EditableTimer"
+import ToggleableTimerForm from "./components/ToggleableTimerForm"
+import { updateFn } from "./types"
+import { useTimers } from "./utils/hooks"
 
 export default function App() {
   const [timers, { create, remove, update }] = useTimers([
@@ -25,7 +26,15 @@ export default function App() {
       project: "Kitchen Chores",
       elapsed: 3890985,
     },
-  ]);
+  ])
+
+  const toggleRunning: updateFn = existingId => {
+    const timer = timers.find(({ id }) => existingId === id)
+    if (typeof timer === "undefined") {
+      return null
+    }
+    return update(existingId, { ...timer, isRunning: !timer.isRunning })
+  }
 
   return (
     <View style={styles.container}>
@@ -38,7 +47,7 @@ export default function App() {
       >
         <ScrollView style={styles.timerList}>
           <ToggleableTimerForm createTimer={create} />
-          {timers.map((timer) => (
+          {timers.map(timer => (
             <EditableTimer
               key={timer.id}
               {...timer}
@@ -49,7 +58,7 @@ export default function App() {
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -70,4 +79,4 @@ const styles = StyleSheet.create({
   timerList: {
     paddingBottom: 15,
   },
-});
+})
