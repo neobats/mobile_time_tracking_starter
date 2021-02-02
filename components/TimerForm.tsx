@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import TimerButton from "./TimerButton";
 
 type Props = {
-  id: string;
+  id?: string;
   title: string;
   project: string;
   onCancel: () => void;
@@ -43,11 +43,11 @@ const TimerForm = ({
       <View style={styles.buttonGroup}>
         <TimerButton
           small
-          color="21BA45"
+          color="#21BA45"
           title={submitText}
           onPress={onCreate}
         />
-        <TimerButton small color="DB2828" title="Cancel" onPress={onCancel} />
+        <TimerButton small color="#DB2828" title="Cancel" onPress={onCancel} />
       </View>
     </View>
   );
