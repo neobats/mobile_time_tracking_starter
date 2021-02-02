@@ -1,18 +1,19 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { removeFn } from "../types";
-import { millisecondsToHuman } from "../utils/TimerUtils";
-import TimerButton from "./TimerButton";
+import React from "react"
+import { StyleSheet, Text, View } from "react-native"
+import { ITimer, removeFn } from "../types"
+import { millisecondsToHuman } from "../utils/TimerUtils"
+import TimerButton from "./TimerButton"
 
 type Props = {
-  id?: string;
-  elapsed: number;
-  project: string;
-  title: string;
-  isRunning?: boolean;
-  setEditFormOpen: () => void;
-  removeTimer: removeFn;
-};
+  id?: string
+  elapsed: number
+  project: string
+  title: string
+  isRunning?: boolean
+  toggleRunning: (id: string) => ITimer | null
+  setEditFormOpen: () => void
+  removeTimer: removeFn
+}
 
 const Timer = ({
   elapsed,
@@ -21,9 +22,13 @@ const Timer = ({
   removeTimer,
   setEditFormOpen,
   title,
+  isRunning,
+  toggleRunning,
 }: Props) => {
-  const elapsedString = millisecondsToHuman(elapsed);
-  const onRemovePress = () => removeTimer(id || "");
+  const elapsedString = millisecondsToHuman(elapsed)
+  const onRemovePress = () => removeTimer(id || "")
+  const onRunningPress = () => toggleRunning(id || "")
+  const startButtonTitle = () => (isRunning ? "Stop" : "Start")
 
   return (
     <View style={styles.timerContainer}>
@@ -44,10 +49,15 @@ const Timer = ({
           onPress={onRemovePress}
         />
       </View>
-      <TimerButton color="#21BA45" small title="Start" />
+      <TimerButton
+        color="#21BA45"
+        small
+        title={startButtonTitle()}
+        onPress={onRunningPress}
+      />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   timerContainer: {
@@ -73,6 +83,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-});
+})
 
-export default Timer;
+export default Timer
