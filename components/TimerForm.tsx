@@ -1,13 +1,16 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
+import { createFn, updateFn } from "../types";
+import { useTextInput } from "../utils/hooks";
 import TimerButton from "./TimerButton";
 
 type Props = {
   id?: string;
-  title: string;
-  project: string;
+  title?: string;
+  project?: string;
   onCancel: () => void;
-  onCreate: () => void;
+  onCreate?: createFn;
+  onEdit?: updateFn;
 };
 
 const TimerForm = ({
@@ -16,8 +19,25 @@ const TimerForm = ({
   project,
   onCancel,
   onCreate,
-}: Partial<Props>) => {
+  onEdit,
+}: Props) => {
+  const [newTitle, setNewTitle] = useTextInput();
+  const [newProject, setNewProject] = useTextInput();
+
   const submitText = id ? "Update" : "Create";
+  const handleSubmit = () => {
+    if (id && onEdit) {
+      onEdit(id, {
+        project: newProject || project,
+        title: newTitle || title,
+      });
+    } else if (onCreate) {
+      onCreate({ project: newProject, title: newTitle });
+    } else {
+      return;
+    }
+  };
+
   return (
     <View style={styles.formContainer}>
       <View style={styles.attributeContainer}>
@@ -27,6 +47,7 @@ const TimerForm = ({
             style={styles.textInput}
             underlineColorAndroid="transparent"
             defaultValue={title}
+            onChangeText={setNewTitle}
           />
         </View>
       </View>
@@ -37,6 +58,7 @@ const TimerForm = ({
             style={styles.textInput}
             underlineColorAndroid="transparent"
             defaultValue={project}
+            onChangeText={setNewProject}
           />
         </View>
       </View>
@@ -45,7 +67,7 @@ const TimerForm = ({
           small
           color="#21BA45"
           title={submitText}
-          onPress={onCreate}
+          onPress={handleSubmit}
         />
         <TimerButton small color="#DB2828" title="Cancel" onPress={onCancel} />
       </View>

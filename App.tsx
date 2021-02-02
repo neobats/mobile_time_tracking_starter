@@ -11,7 +11,7 @@ import ToggleableTimerForm from "./components/ToggleableTimerForm";
 import { useTimers } from "./utils/hooks";
 
 export default function App() {
-  const [timers, timerFns] = useTimers([
+  const [timers, { create, remove, update }] = useTimers([
     {
       id: "1",
       title: "Mow the lawn",
@@ -37,13 +37,13 @@ export default function App() {
         // style={styles.titleListContainer}
       >
         <ScrollView style={styles.timerList}>
-          <ToggleableTimerForm />
+          <ToggleableTimerForm createTimer={create} />
           {timers.map((timer) => (
             <EditableTimer
               key={timer.id}
               {...timer}
-              editTimer={timerFns.update}
-              removeTimer={timerFns.remove}
+              editTimer={update}
+              removeTimer={remove}
             />
           ))}
         </ScrollView>

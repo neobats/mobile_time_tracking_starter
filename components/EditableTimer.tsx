@@ -9,7 +9,6 @@ type Props = {
   id: string;
   project: string;
   title: string;
-  isEditFormOpen?: boolean;
   isRunning?: boolean;
   editTimer: updateFn;
   removeTimer: removeFn;
@@ -26,6 +25,11 @@ const EditableTimer = ({
 }: Props) => {
   const [isEditFormOpen, setEditFormOpen] = useEditFormToggle();
 
+  const onEdit: updateFn = (id, timer) => {
+    setEditFormOpen();
+    return editTimer(id, timer);
+  };
+
   if (isEditFormOpen) {
     return (
       <TimerForm
@@ -33,6 +37,7 @@ const EditableTimer = ({
         title={title}
         project={project}
         onCancel={setEditFormOpen}
+        onEdit={onEdit}
       />
     );
   }
@@ -43,7 +48,7 @@ const EditableTimer = ({
       project={project}
       elapsed={elapsed}
       isRunning={isRunning}
-      editTimer={editTimer}
+      setEditFormOpen={setEditFormOpen}
       removeTimer={removeTimer}
     />
   );
