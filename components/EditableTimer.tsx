@@ -1,5 +1,5 @@
 import React from "react"
-import { removeFn, updateFn } from "../types"
+import { ITimer, removeFn, updateFn } from "../types"
 import { useEditFormToggle } from "../utils/hooks"
 import Timer from "./Timer"
 import TimerForm from "./TimerForm"
@@ -10,6 +10,7 @@ type Props = {
   project: string
   title: string
   isRunning?: boolean
+  toggleRunning: (id: string) => ITimer | null
   editTimer: updateFn
   removeTimer: removeFn
 }
@@ -18,6 +19,7 @@ const EditableTimer = ({
   elapsed,
   id,
   isRunning,
+  toggleRunning,
   project,
   title,
   editTimer,
@@ -48,6 +50,7 @@ const EditableTimer = ({
       project={project}
       elapsed={elapsed}
       isRunning={isRunning}
+      toggleRunning={toggleRunning}
       setEditFormOpen={setEditFormOpen}
       removeTimer={removeTimer}
     />

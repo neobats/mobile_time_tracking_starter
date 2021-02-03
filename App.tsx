@@ -8,7 +8,6 @@ import {
 } from "react-native"
 import EditableTimer from "./components/EditableTimer"
 import ToggleableTimerForm from "./components/ToggleableTimerForm"
-import { updateFn } from "./types"
 import { useTimers } from "./utils/hooks"
 
 export default function App() {
@@ -28,7 +27,7 @@ export default function App() {
     },
   ])
 
-  const toggleRunning: updateFn = existingId => {
+  const toggleRunning = (existingId: string) => {
     const timer = timers.find(({ id }) => existingId === id)
     if (typeof timer === "undefined") {
       return null
@@ -53,6 +52,7 @@ export default function App() {
               {...timer}
               editTimer={update}
               removeTimer={remove}
+              toggleRunning={toggleRunning}
             />
           ))}
         </ScrollView>
