@@ -1,9 +1,12 @@
 import uuidv4 from "uuid/v4"
 
+const convert = ms => power => Math.floor(ms / 1000 / Math.pow(60, power))
+
 export const millisecondsToHuman = ms => {
-  const seconds = Math.floor((ms / 1000) % 60)
-  const minutes = Math.floor((ms / 1000 / 60) % 60)
-  const hours = Math.floor(ms / 1000 / 60 / 60)
+  const convertMs = convert(ms)
+  const seconds = convertMs(0) % 60
+  const minutes = convertMs(1) % 60
+  const hours = convertMs(2)
 
   const humanized = [
     pad(hours.toString(), 2),
