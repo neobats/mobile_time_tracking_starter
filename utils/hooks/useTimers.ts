@@ -1,6 +1,12 @@
 import { useState } from "react"
-import { ITimer } from "../../types"
-import { createFn, ITimerFns, removeFn, updateFn } from "../../types/timerFns"
+import {
+  createFn,
+  findFn,
+  ITimer,
+  ITimerFns,
+  removeFn,
+  updateFn,
+} from "../../types"
 import { newTimer } from "../TimerUtils"
 
 export const useTimers = (initialTimers: ITimer[]): [ITimer[], ITimerFns] => {
@@ -34,5 +40,7 @@ export const useTimers = (initialTimers: ITimer[]): [ITimer[], ITimerFns] => {
     return newTimer || null
   }
 
-  return [timers, { create, remove, update }]
+  const find: findFn = existingId => timers.find(({ id }) => existingId === id)
+
+  return [timers, { create, find, remove, update }]
 }
