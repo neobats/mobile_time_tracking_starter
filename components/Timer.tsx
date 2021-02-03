@@ -50,7 +50,7 @@ const Timer = ({
         />
       </View>
       <TimerButton
-        color="#21BA45"
+        color={isRunning ? "#DB2828" : "#21BA45"}
         small
         title={startButtonTitle()}
         onPress={onRunningPress}
