@@ -1,2 +1,2 @@
-export * from "./timer";
-export * from "./timerFns";
+export * from "./timer"
+export * from "./timerFns"
