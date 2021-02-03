@@ -1,3 +1,4 @@
-export * from "./useEditFormToggle";
-export * from "./useTextInput";
-export * from "./useTimers";
+export * from "./useEditFormToggle"
+export * from "./useInterval"
+export * from "./useTextInput"
+export * from "./useTimers"
