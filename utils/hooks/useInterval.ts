@@ -18,7 +18,7 @@ export const useInterval = (callback: () => void, delay: number | null) => {
       }
     }
 
-    // 0 is a falsy value, so we have to check this way
+    // 0 is a falsy value, but a valid delay number, so we have to check this way
     if (delay !== null) {
       const someInterval = setInterval(tick, delay)
       return () => clearInterval(someInterval)

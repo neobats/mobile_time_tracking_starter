@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
   KeyboardAvoidingView,
   ScrollView,
@@ -8,16 +8,16 @@ import {
 } from "react-native"
 import EditableTimer from "./components/EditableTimer"
 import ToggleableTimerForm from "./components/ToggleableTimerForm"
-import { useTimers } from "./utils/hooks"
+import { useInterval, useTimers } from "./utils/hooks"
 
 export default function App() {
-  const [timers, { create, remove, update }] = useTimers([
+  const [delay, setDelay] = useState<number | null>(null)
+  const [timers, { create, find, mapAll, remove, update }] = useTimers([
     {
       id: "1",
       title: "Mow the lawn",
       project: "House Chores",
       elapsed: 8986300,
-      isRunning: true,
     },
     {
       id: "2",
@@ -28,12 +28,30 @@ export default function App() {
   ])
 
   const toggleRunning = (existingId: string) => {
-    const timer = timers.find(({ id }) => existingId === id)
+    const timer = find(existingId)
     if (typeof timer === "undefined") {
       return null
     }
-    return update(existingId, { ...timer, isRunning: !timer.isRunning })
+    const isRunning = !timer.isRunning
+    return update(existingId, { isRunning })
   }
+
+  // trigger delay for interval
+  useEffect(() => {
+    const isSomeRunning = timers.some(t => t.isRunning)
+    setDelay(isSomeRunning ? 1000 : null)
+  }, [timers])
+
+  useInterval(() => {
+    mapAll(t => {
+      const addedTime = delay ?? 0
+      if (t.isRunning) {
+        const newTime = t.elapsed + addedTime
+        return { ...t, elapsed: newTime }
+      }
+      return { ...t }
+    })
+  }, delay) // run every second
 
   return (
     <View style={styles.container}>
@@ -42,7 +60,7 @@ export default function App() {
       </View>
       <KeyboardAvoidingView
         behavior="padding"
-        // style={styles.titleListContainer}
+        style={styles.timerListContainer}
       >
         <ScrollView style={styles.timerList}>
           <ToggleableTimerForm createTimer={create} />
@@ -63,6 +81,9 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  timerListContainer: {
     flex: 1,
   },
   titleContainer: {
