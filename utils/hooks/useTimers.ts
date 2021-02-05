@@ -4,6 +4,7 @@ import {
   findFn,
   ITimer,
   ITimerFns,
+  mappAllFn,
   removeFn,
   updateFn,
 } from "../../types"
@@ -42,5 +43,11 @@ export const useTimers = (initialTimers: ITimer[]): [ITimer[], ITimerFns] => {
 
   const find: findFn = existingId => timers.find(({ id }) => existingId === id)
 
-  return [timers, { create, find, remove, update }]
+  const mapAll: mappAllFn = fn => {
+    const newList = timers.map(fn)
+    setTimers(newList)
+    return newList
+  }
+
+  return [timers, { create, find, mapAll, remove, update }]
 }
