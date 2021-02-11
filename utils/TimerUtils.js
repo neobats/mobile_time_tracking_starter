@@ -1,4 +1,4 @@
-import uuidv4 from "uuid/v4"
+import { v4 as uuid } from "uuid"
 
 const convert = ms => power => Math.floor(ms / 1000 / Math.pow(60, power))
 
@@ -29,7 +29,7 @@ export const newTimer = (attrs = {}) => {
   const timer = {
     title: attrs.title || "Timer",
     project: attrs.project || "Project",
-    id: uuidv4(),
+    id: uuid(),
     elapsed: 0,
     isRunning: false,
   }

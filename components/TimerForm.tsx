@@ -2,6 +2,7 @@ import React from "react"
 import { StyleSheet, Text, TextInput, View } from "react-native"
 import { createFn, updateFn } from "../types"
 import { useTextInput } from "../utils/hooks"
+import { newTimer } from "../utils/TimerUtils"
 import TimerButton from "./TimerButton"
 
 type Props = {
@@ -32,7 +33,7 @@ const TimerForm = ({
         title: newTitle || title,
       })
     } else if (onCreate) {
-      onCreate({ project: newProject, title: newTitle })
+      onCreate(newTimer({ project: newProject, title: newTitle }))
     } else {
       return
     }
@@ -46,7 +47,7 @@ const TimerForm = ({
           <TextInput
             style={styles.textInput}
             underlineColorAndroid="transparent"
-            value={title}
+            defaultValue={title}
             onChangeText={setNewTitle}
           />
         </View>
@@ -57,7 +58,7 @@ const TimerForm = ({
           <TextInput
             style={styles.textInput}
             underlineColorAndroid="transparent"
-            value={project}
+            defaultValue={project}
             onChangeText={setNewProject}
           />
         </View>

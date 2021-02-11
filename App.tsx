@@ -8,11 +8,15 @@ import {
 } from "react-native"
 import EditableTimer from "./components/EditableTimer"
 import ToggleableTimerForm from "./components/ToggleableTimerForm"
-import { useInterval, useTimers } from "./utils/hooks"
+import { ITimer } from "./types"
+import { useCRUD, useInterval } from "./utils/hooks"
 
 export default function App() {
   const [delay, setDelay] = useState<number | null>(null)
-  const [timers, { create, find, mapAll, remove, update }] = useTimers([
+  const [
+    timers,
+    { create, find, map, remove, update, updateAll },
+  ] = useCRUD<ITimer>([
     {
       id: "1",
       title: "Mow the lawn",
@@ -43,7 +47,7 @@ export default function App() {
   }, [timers])
 
   useInterval(() => {
-    mapAll(t => {
+    updateAll(t => {
       const addedTime = delay ?? 0
       if (t.isRunning) {
         const newTime = t.elapsed + addedTime
